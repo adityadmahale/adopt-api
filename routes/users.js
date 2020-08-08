@@ -5,7 +5,7 @@ const { User, validate } = require("../models/user");
 
 const route = express.Router();
 
-route.post("/register", async (req, res) => {
+route.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -22,8 +22,10 @@ route.post("/register", async (req, res) => {
   user.password = await bcrypt.hash(req.body.password, salt);
 
   await user.save();
-
-  res.send(_.pick(user, ["_id", "username", "email"]));
+  const token = user.generateAuthToken();
+  res
+    .header("x-auth-token", token)
+    .send(_.pick(user, ["_id", "username", "email"]));
 });
 
 route.delete("/:id", async (req, res) => {
