@@ -2,6 +2,8 @@ const express = require("express");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { User, validate } = require("../models/user");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const route = express.Router();
 
@@ -28,7 +30,7 @@ route.post("/", async (req, res) => {
     .send(_.pick(user, ["_id", "username", "email"]));
 });
 
-route.delete("/:id", async (req, res) => {
+route.delete("/:id", [auth, admin], async (req, res) => {
   const user = await User.findByIdAndRemove(req.params.id);
   if (!user)
     return res

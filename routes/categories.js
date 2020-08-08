@@ -1,5 +1,7 @@
 const express = require("express");
 const { Category, validate } = require("../models/category");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const route = express.Router();
 
@@ -18,7 +20,7 @@ route.get("/:id", async (req, res) => {
   res.send(category);
 });
 
-route.put("/:id", async (req, res) => {
+route.put("/:id", [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -37,7 +39,7 @@ route.put("/:id", async (req, res) => {
   res.send(category);
 });
 
-route.post("/", async (req, res) => {
+route.post("/", [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -47,7 +49,7 @@ route.post("/", async (req, res) => {
   res.send(category);
 });
 
-route.delete("/:id", async (req, res) => {
+route.delete("/:id", [auth, admin], async (req, res) => {
   const category = await Category.findByIdAndRemove(req.params.id);
   if (!category)
     return res

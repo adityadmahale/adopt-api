@@ -1,9 +1,15 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const auth = require("../middleware/auth");
 const { User } = require("../models/user");
 
 const route = express.Router();
+
+route.get("/me", auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password");
+  res.send(user);
+});
 
 route.post("/", async (req, res) => {
   const schema = Joi.object({
