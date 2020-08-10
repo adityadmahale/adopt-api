@@ -1,11 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const { Category, validate } = require("../models/category");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
 const route = express.Router();
 
-route.get("/", async (req, res) => {
+route.get("/", cors(), async (req, res) => {
   const categories = await Category.find();
   res.send(categories);
 });
