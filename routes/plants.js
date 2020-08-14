@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const { Plant, validate } = require("../models/plant");
 const { Category } = require("../models/category");
 const auth = require("../middleware/auth");
@@ -7,7 +6,7 @@ const admin = require("../middleware/admin");
 
 const route = express.Router();
 
-route.get("/", cors(), async (req, res) => {
+route.get("/", async (req, res) => {
   const plants = await Plant.find();
   res.send(plants);
 });
