@@ -9,7 +9,7 @@ const Cart = mongoose.model(
       required: true,
     },
     plants: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [String],
       required: true,
     },
     dateAdopted: {
@@ -24,7 +24,7 @@ module.exports.Cart = Cart;
 
 module.exports.validate = (object) => {
   const schema = Joi.object({
-    plants: Joi.array().items(Joi.objectId()).required(),
+    plants: Joi.array().items(Joi.string().min(3).max(50)).required(),
   });
 
   return schema.validate(object);
