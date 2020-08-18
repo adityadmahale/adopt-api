@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "adopt_jwtPrivateKey"
+  "jwtPrivateKey": "adopt_jwtPrivateKey",
+  "db": "adopt_db"
 }

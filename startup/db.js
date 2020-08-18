@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const config = require("config");
 
 module.exports = function () {
   mongoose
-    .connect("mongodb://localhost:27017/adopt")
+    .connect(config.get("db"))
     .then(() => console.log("Connected to MongoDB"));
 };
